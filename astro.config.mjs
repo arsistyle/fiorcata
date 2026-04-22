@@ -2,12 +2,16 @@
 import { defineConfig, fontProviders } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
+import sitemap from "@astrojs/sitemap";
+
 // https://astro.build/config
 export default defineConfig({
+  site: "https://fiorcata.com",
   vite: {
     plugins: [tailwindcss()],
     cacheDir: "/tmp/vite-fiorcata-cache",
   },
+
   image: {
     remotePatterns: [
       {
@@ -16,6 +20,7 @@ export default defineConfig({
       },
     ],
   },
+
   fonts: [
     {
       provider: fontProviders.fontsource(),
@@ -34,4 +39,6 @@ export default defineConfig({
       subsets: ["latin", "latin-ext"],
     },
   ],
+
+  integrations: [sitemap()],
 });

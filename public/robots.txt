@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block Astro internals
+Disallow: /_astro/
+Disallow: /api/
+
+Sitemap: https://fiorcata.com/sitemap.xml
