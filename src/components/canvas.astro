@@ -1,0 +1,61 @@
+---
+import { Image } from "astro:assets";
+import { lazy } from "astro:schema";
+
+const {
+  class: className,
+  src,
+  alt,
+  orientation = "portrait",
+  scaleStart = 1,
+  scaleEnd = 1,
+  translateYStart = 0,
+  translateYEnd = 0,
+  translateXStart = 0,
+  translateXEnd = 0,
+} = Astro.props;
+
+type Orientation = "portrait" | "landscape";
+type Widths = Record<Orientation, { width: number; height: number }>;
+
+const aspect = orientation === "portrait" ? "aspect-36/54" : "aspect-54/36";
+const widths: Widths = {
+  portrait: {
+    width: 720,
+    height: 1080,
+  },
+  landscape: {
+    width: 1080,
+    height: 720,
+  },
+} as const;
+---
+
+<div
+  class:list={[
+    "w-full",
+    "animate-gallery-reveal",
+    "max-md:[animation:none]",
+    "[animation-timeline:view()]",
+    "shadow-medium",
+    aspect,
+    className,
+  ]}
+  style={`
+        --canvas-scale-start: ${scaleStart};
+        --canvas-scale-end: ${scaleEnd};
+        --canvas-translate-y-start: ${translateYStart};
+        --canvas-translate-y-end: ${translateYEnd};
+        --canvas-translate-x-start: ${translateXStart};
+        --canvas-translate-x-end: ${translateXEnd};`}
+>
+  <!-- <img src={src} alt={alt} class="w-full h-full object-cover block" /> -->
+  <Image
+    src={src}
+    alt={alt}
+    class="w-full h-full object-cover block"
+    width={widths[orientation as Orientation].width as number}
+    height={widths[orientation as Orientation].height as number}
+    loading={"lazy"}
+  />
+</div>
